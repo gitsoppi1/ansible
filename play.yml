@@ -1,0 +1,23 @@
+---
+- hosts: web
+  vars:
+    - httpd_port: 8080
+  tasks:
+    - name: install apache webserver
+      package: name=httpd state=present
+    - name: install git client
+      package: name=git state=present
+    - name: start service
+      service: name=httpd state=started enabled=yes
+    - name: download code from git hub
+      git: repo=https://github.com/demoglot/html-samples-doctor.git dest=/var/www/html
+    - name: changing port
+      template: src=/root/httpd.conf.j2 dest=/etc/httpd/conf/httpd.conf
+      notify: restart httpd
+    - name: enable firewall
+      firewalld: port={{httpd_port}}/tcp permanent=yes state=enabled
+    - name: reload firewall
+      service: name=httpd state=reloaded
+  handlers:
+    - name: restart httpd
+      service: name=httpd state=restarted
