@@ -15,7 +15,7 @@
       template: src=/root/httpd.conf.j2 dest=/etc/httpd/conf/httpd.conf
       notify: restart httpd
     - name: enable firewall
-      firewalld: port={{httpd_port}}/tcp permanent=yes state=enabled
+      firewalld: port=8080/tcp permanent=yes state=enabled
     - name: reload firewall
       service: name=httpd state=reloaded
   handlers:

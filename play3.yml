@@ -1,0 +1,13 @@
+---
+- hosts: web
+  vars:
+   -  groupname: admin
+  tasks:
+   -  name: create admins group
+      group: name={{groupname}} state=present
+   -  name: crate admin users
+      user: name={{item}} state=present
+      with_items:
+        - anuu
+        - affu
+        - prassu

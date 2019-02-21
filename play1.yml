@@ -1,0 +1,13 @@
+---
+- hosts: web
+  tasks:
+   -  name: create admins group
+      group: name=devops state=present
+   -  name: create admin users
+      user: name={{item}} state=present groups=devops
+      with_items:
+       - suresh
+       - ramesh
+       - naresh
+
+
